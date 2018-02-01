@@ -5,6 +5,10 @@ import { LinearGradient } from 'expo';
 const { width, height } = Dimensions.get('window');
 
 export default class App extends React.Component {
+  state = {
+    minutesHeight: 0,
+  };
+
   scrollY = new Animated.Value(height);
 
   componentDidMount() {
@@ -14,6 +18,12 @@ export default class App extends React.Component {
       animated: false,
     });
   }
+
+  measureMinutesHeight = ({ nativeEvent }) => {
+    this.setState({
+      minutesHeight: nativeEvent.layout.height,
+    });
+  };
 
   render() {
     return (
@@ -62,40 +72,299 @@ export default class App extends React.Component {
 
         <View pointerEvents="none" style={styles.sunMoonContainer}>
           <Animated.View
-            style={[
-              styles.sunMoon,
-              {
-                backgroundColor: 'orange',
-                transform: [
-                  {
-                    translateY: this.scrollY.interpolate({
-                      inputRange: [0, height],
-                      outputRange: [height, 0],
-                      extrapolate: 'clamp',
-                    }),
-                  },
-                ],
-              },
-            ]}
-          />
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              alignItems: 'center',
+              justifyContent: 'center',
+              transform: [
+                {
+                  translateY: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [height, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          >
+            <View
+              style={[
+                styles.sunMoon,
+                {
+                  backgroundColor: 'orange',
+                },
+              ]}
+            />
+          </Animated.View>
           <Animated.View
-            style={[
-              styles.sunMoon,
-              {
-                backgroundColor: 'gray',
-                top: -width / 2,
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              alignItems: 'center',
+              justifyContent: 'center',
+              transform: [
+                {
+                  translateY: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [0, -height],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          >
+            <View
+              style={[
+                styles.sunMoon,
+                {
+                  backgroundColor: 'gray',
+                },
+              ]}
+            />
+          </Animated.View>
+          <View
+            style={{
+              // overflow: 'hidden',
+              height: 64,
+              backgroundColor: 'pink',
+              flexDirection: 'row',
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <View>
+              <View style={styles.clockTextContainer}>
+                <Text style={styles.clockTextStyle}>5</Text>
+              </View>
+            </View>
+            <Animated.View
+              style={{
                 transform: [
                   {
                     translateY: this.scrollY.interpolate({
                       inputRange: [0, height],
-                      outputRange: [0, -height],
-                      extrapolate: 'clamp',
+                      outputRange: [
+                        -(this.state.minutesHeight * 5),
+                        -(this.state.minutesHeight * 9),
+                      ],
                     }),
                   },
                 ],
-              },
-            ]}
-          />
+              }}
+            >
+              <View style={{ height: 100 }}>
+                <View style={styles.clockTextContainer}>
+                  <Text
+                    onLayout={this.measureMinutesHeight}
+                    style={styles.clockTextStyle}
+                  >
+                    0
+                  </Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>1</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>2</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>3</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>4</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>5</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>6</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>7</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>8</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>9</Text>
+                </View>
+              </View>
+            </Animated.View>
+            <Animated.View
+              style={{
+                transform: [
+                  {
+                    translateY: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [
+                        -(this.state.minutesHeight * 30),
+                        -(this.state.minutesHeight * 5),
+                      ],
+                    }),
+                  },
+                ],
+              }}
+            >
+              <View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>0</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>1</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>2</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>3</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>4</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>5</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>6</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>7</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>8</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>9</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>0</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>1</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>2</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>3</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>4</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>5</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>6</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>7</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>8</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>9</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>0</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>1</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>2</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>3</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>4</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>5</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>6</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>7</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>8</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>9</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>0</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>1</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>2</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>3</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>4</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>5</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>6</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>7</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>8</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>9</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>0</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>1</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>2</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>3</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>4</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>5</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>6</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>7</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>8</Text>
+                </View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>9</Text>
+                </View>
+              </View>
+            </Animated.View>
+          </View>
         </View>
 
         <View style={styles.goldenHourContainer}>
@@ -141,6 +410,12 @@ export default class App extends React.Component {
             </Animated.View>
           </View>
         </View>
+
+        <View style={{ position: 'absolute' }}>
+          <Text>
+            {this.state.minutesHeight}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -169,6 +444,7 @@ const styles = StyleSheet.create({
   goldenHourText: {
     marginRight: 8,
     fontSize: 28,
+    fontWeight: '700',
     color: 'white',
   },
   goldenHourStatusContainer: {
@@ -181,13 +457,14 @@ const styles = StyleSheet.create({
   },
   goldenHourStatusText: {
     fontSize: 28,
+    fontWeight: '700',
     color: 'white',
   },
   sunMoonContainer: {
     position: 'absolute',
+    top: height * 0.3,
     left: 0,
     right: 0,
-    top: height * 0.15,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -195,5 +472,15 @@ const styles = StyleSheet.create({
     width: width / 2,
     height: width / 2,
     borderRadius: width / 2 / 2,
+  },
+  clockTextContainer: {
+    // width: 80,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  clockTextStyle: {
+    fontSize: 64,
+    fontWeight: '700',
+    color: 'white',
   },
 });
