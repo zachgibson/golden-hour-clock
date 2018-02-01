@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Dimensions,
+  Image,
+} from 'react-native';
 import { LinearGradient } from 'expo';
 
 const { width, height } = Dimensions.get('window');
@@ -237,14 +244,7 @@ export default class App extends React.Component {
                     <Text style={styles.clockTextStyle}>8</Text>
                   </View>
                   <View style={styles.clockTextContainer}>
-                    <Text
-                      style={[
-                        styles.clockTextStyle,
-                        { backgroundColor: 'red' },
-                      ]}
-                    >
-                      9
-                    </Text>
+                    <Text style={styles.clockTextStyle}>9</Text>
                   </View>
                 </Animated.View>
               </View>
@@ -507,10 +507,52 @@ export default class App extends React.Component {
           </View>
         </View>
 
-        <View style={{ position: 'absolute' }}>
-          <Text>
-            {this.state.minutesHeight}
-          </Text>
+        <View
+          pointerEvents="none"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: height * 0.4,
+            backgroundColor: '#232E37',
+          }}
+        >
+          <View style={{ position: 'absolute', bottom: 24, left: 40 }}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 72,
+                height: 72,
+                borderRadius: 36,
+                backgroundColor: '#505F68',
+              }}
+            >
+              <Image
+                style={{ tintColor: 'white' }}
+                source={require('./clock.png')}
+              />
+            </View>
+          </View>
+
+          <View style={{ position: 'absolute', bottom: 24, right: 40 }}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 72,
+                height: 72,
+                borderRadius: 36,
+                backgroundColor: '#505F68',
+              }}
+            >
+              <Image
+                style={{ tintColor: 'white' }}
+                source={require('./camera.png')}
+              />
+            </View>
+          </View>
         </View>
       </View>
     );
