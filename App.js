@@ -6,8 +6,9 @@ import {
   Animated,
   Dimensions,
   Image,
+  StatusBar,
 } from 'react-native';
-import { LinearGradient } from 'expo';
+import { LinearGradient, Svg } from 'expo';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,6 +21,8 @@ export default class App extends React.Component {
   scrollY = new Animated.Value(height);
 
   componentDidMount() {
+    StatusBar.setHidden(true);
+
     this.animatedScrollView._component.scrollTo({
       x: 0,
       y: height,
@@ -102,10 +105,41 @@ export default class App extends React.Component {
               style={[
                 styles.sunMoon,
                 {
-                  backgroundColor: 'orange',
+                  backgroundColor: 'white',
+                  shadowColor: '#FFAD14',
+                  shadowRadius: 24,
+                  shadowOpacity: 0.5,
                 },
               ]}
             />
+            <Svg
+              style={{ position: 'absolute' }}
+              height={width / 2}
+              width={width / 2}
+            >
+              <Svg.Defs>
+                <Svg.RadialGradient
+                  id="grad"
+                  cx="50%"
+                  cy="50%"
+                  rx="50%"
+                  ry="50%"
+                  fx="50%"
+                  fy="50%"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <Svg.Stop offset="0%" stopColor="#FCBF00" stopOpacity="1" />
+                  <Svg.Stop offset="100%" stopColor="#F78831" stopOpacity="1" />
+                </Svg.RadialGradient>
+              </Svg.Defs>
+              <Svg.Ellipse
+                cx="103.5"
+                cy="103.5"
+                rx="103.5"
+                ry="103.5"
+                fill="url(#grad)"
+              />
+            </Svg>
           </Animated.View>
           <Animated.View
             style={{
@@ -129,10 +163,41 @@ export default class App extends React.Component {
               style={[
                 styles.sunMoon,
                 {
-                  backgroundColor: 'gray',
+                  backgroundColor: 'white',
+                  shadowColor: '#6F7179',
+                  shadowRadius: 24,
+                  shadowOpacity: 0.5,
                 },
               ]}
             />
+            <Svg
+              style={{ position: 'absolute' }}
+              height={width / 2}
+              width={width / 2}
+            >
+              <Svg.Defs>
+                <Svg.RadialGradient
+                  id="grad"
+                  cx="50%"
+                  cy="50%"
+                  rx="50%"
+                  ry="50%"
+                  fx="50%"
+                  fy="50%"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <Svg.Stop offset="0%" stopColor="#848484" stopOpacity="1" />
+                  <Svg.Stop offset="100%" stopColor="#727274" stopOpacity="1" />
+                </Svg.RadialGradient>
+              </Svg.Defs>
+              <Svg.Ellipse
+                cx="103.5"
+                cy="103.5"
+                rx="103.5"
+                ry="103.5"
+                fill="url(#grad)"
+              />
+            </Svg>
           </Animated.View>
 
           <View
@@ -463,50 +528,6 @@ export default class App extends React.Component {
           </View>
         </View>
 
-        <View style={styles.goldenHourContainer}>
-          <Text style={styles.goldenHourText}>Golden Hour</Text>
-          <View style={styles.goldenHourStatusContainer}>
-            <Animated.View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  backgroundColor: '#31CD06',
-                },
-              ]}
-            />
-            <Animated.View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  opacity: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [1, 0],
-                    extrapolate: 'clamp',
-                  }),
-                  backgroundColor: '#EA4052',
-                },
-              ]}
-            />
-            <Animated.View
-              style={{
-                transform: [
-                  {
-                    translateY: this.scrollY.interpolate({
-                      inputRange: [0, height],
-                      outputRange: [0, -34],
-                    }),
-                  },
-                ],
-              }}
-            >
-              <Text style={styles.goldenHourStatusText}>OVER</Text>
-              <Text style={[styles.goldenHourStatusText, { right: -3 }]}>
-                NOW
-              </Text>
-            </Animated.View>
-          </View>
-        </View>
-
         <View
           pointerEvents="none"
           style={{
@@ -552,6 +573,212 @@ export default class App extends React.Component {
                 source={require('./camera.png')}
               />
             </View>
+          </View>
+        </View>
+
+        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+          <Animated.View
+            style={{
+              top: height * 0.325,
+              left: -width * 0.15,
+              width: 120,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 1.5, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.5,
+              left: width * 0.6,
+              width: 144,
+              height: 16,
+              borderRadius: 8,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 3, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.1,
+              left: width * 0.8,
+              width: 144,
+              height: 12,
+              borderRadius: 6,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 2.5, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.04,
+              left: width * 1,
+              width: 144,
+              height: 12,
+              borderRadius: 6,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 3, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.2,
+              left: width * 1,
+              width: 184,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 3, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.1,
+              left: width * 2,
+              width: 104,
+              height: 10,
+              borderRadius: 5,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 2.9, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.3,
+              left: width * 2.3,
+              width: 184,
+              height: 18,
+              borderRadius: 9,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 3.2, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+
+          <Animated.View
+            style={{
+              top: height * 0.5,
+              left: width * 3.8,
+              width: 184,
+              height: 18,
+              borderRadius: 9,
+              backgroundColor: 'rgba(255,255,255,0.5)',
+              transform: [
+                {
+                  translateX: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [-width * 3.9, 0],
+                    extrapolate: 'clamp',
+                  }),
+                },
+              ],
+            }}
+          />
+        </View>
+
+        <View pointerEvents="none" style={styles.goldenHourContainer}>
+          <Text style={styles.goldenHourText}>Golden Hour</Text>
+          <View style={styles.goldenHourStatusContainer}>
+            <Animated.View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  backgroundColor: '#31CD06',
+                },
+              ]}
+            />
+            <Animated.View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  opacity: this.scrollY.interpolate({
+                    inputRange: [0, height],
+                    outputRange: [1, 0],
+                    extrapolate: 'clamp',
+                  }),
+                  backgroundColor: '#EA4052',
+                },
+              ]}
+            />
+            <Animated.View
+              style={{
+                transform: [
+                  {
+                    translateY: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [0, -34],
+                    }),
+                  },
+                ],
+              }}
+            >
+              <Text style={styles.goldenHourStatusText}>OVER</Text>
+              <Text style={[styles.goldenHourStatusText, { right: -3 }]}>
+                NOW
+              </Text>
+            </Animated.View>
           </View>
         </View>
       </View>
