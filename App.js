@@ -620,6 +620,42 @@ export default class App extends React.Component {
               <Animated.View
                 style={{
                   position: 'absolute',
+                  top: -width * 0.45,
+                  left: width * 0.3,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.3, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="18" height="34">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#2A822D" />
+                      <Svg.Stop offset="100%" stopColor="#0F362B" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="9 0 18 34 0 34"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
                   top: -height * 0.32,
                   left: -width * 0.4,
                   transform: [
@@ -728,6 +764,47 @@ export default class App extends React.Component {
               <Animated.View
                 style={{
                   position: 'absolute',
+                  top: -width * 0.45,
+                  left: width * 0.75,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 1.7, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="119" height="100">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="trees-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#2A822D" />
+                      <Svg.Stop offset="100%" stopColor="#0F362B" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon fill="url(#trees-a)" points="13 22 26 76 0 76" />
+                  <Svg.Polygon
+                    fill="url(#trees-a)"
+                    points="101.5 20 119 86 84 86"
+                  />
+                  <Svg.Polygon
+                    fill="url(#trees-a)"
+                    points="54 0 83 100 25 100"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
                   top: -height * 0.3,
                   left: width * 1.1,
                   transform: [
@@ -765,13 +842,47 @@ export default class App extends React.Component {
               <Animated.View
                 style={{
                   position: 'absolute',
-                  top: -height * 0.45,
-                  left: width * 2.6,
+                  top: -width * 0.475,
+                  left: width * 1.75,
                   transform: [
                     {
                       translateX: this.scrollY.interpolate({
                         inputRange: [0, height],
-                        outputRange: [-width * 3, 0],
+                        outputRange: [-width * 2.25, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="29" height="23">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="trees-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#2A822D" />
+                      <Svg.Stop offset="100%" stopColor="#0F362B" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon fill="url(#trees-a)" points="6 0 12 23 0 23" />
+                  <Svg.Polygon fill="url(#trees-a)" points="23 0 29 23 17 23" />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.45,
+                  left: width * 2,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.3, 0],
                         extrapolate: 'clamp',
                       }),
                     },
@@ -801,13 +912,126 @@ export default class App extends React.Component {
               <Animated.View
                 style={{
                   position: 'absolute',
-                  top: -height * 0.3,
-                  left: width * 2.7,
+                  top: -width * 0.4,
+                  left: width * 2.3,
                   transform: [
                     {
                       translateX: this.scrollY.interpolate({
                         inputRange: [0, height],
-                        outputRange: [-width * 3.1, 0],
+                        outputRange: [-width * 2, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="18" height="34">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#2A822D" />
+                      <Svg.Stop offset="100%" stopColor="#0F362B" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="9 0 18 34 0 34"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.5,
+                  left: width * 3.6,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 3.2, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="480" height="240">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#FAFEFF" />
+                      <Svg.Stop offset="100%" stopColor="#323B42" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="240 0 480 240 0 240"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -width * 0.4,
+                  left: width * 3,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.5, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="119" height="100">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="trees-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#2A822D" />
+                      <Svg.Stop offset="100%" stopColor="#0F362B" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon fill="url(#trees-a)" points="13 22 26 76 0 76" />
+                  <Svg.Polygon
+                    fill="url(#trees-a)"
+                    points="101.5 20 119 86 84 86"
+                  />
+                  <Svg.Polygon
+                    fill="url(#trees-a)"
+                    points="54 0 83 100 25 100"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.3,
+                  left: width * 2.8,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 3.2, 0],
                         extrapolate: 'clamp',
                       }),
                     },
@@ -997,7 +1221,7 @@ export default class App extends React.Component {
 
             <Animated.View
               style={{
-                top: height * 0.5,
+                top: height * 0.25,
                 left: width * 3.8,
                 width: 184,
                 height: 18,
