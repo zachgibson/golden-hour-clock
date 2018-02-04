@@ -9,8 +9,10 @@ import {
   StatusBar,
 } from 'react-native';
 import { LinearGradient, Svg } from 'expo';
+import SafeAreaView from 'react-native-safe-area-view';
 
 const { width, height } = Dimensions.get('window');
+const TOP_OFFSET_FOR_IPHONE_10 = 40;
 
 export default class App extends React.Component {
   state = {
@@ -39,749 +41,1046 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View>
-        <Animated.ScrollView
-          ref={ref => {
-            this.animatedScrollView = ref;
-          }}
-          pagingEnabled
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={1}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.scrollY } } }],
-            {
-              useNativeDriver: true,
-            }
-          )}
-        >
-          <View style={styles.slide} />
-          <View style={styles.slide} />
-        </Animated.ScrollView>
-
-        <Animated.View
-          pointerEvents="none"
-          style={[
-            StyleSheet.absoluteFill,
-            {
-              height: height * 10,
-              transform: [
-                {
-                  translateY: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [0, -height * 9], // Use 9 to account for initial height which is height * 1
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
-          <LinearGradient
-            style={StyleSheet.absoluteFill}
-            colors={['#1B2125', '#F0544A', '#F88400', '#D1D6DE']}
-          />
-        </Animated.View>
-
-        <View pointerEvents="none" style={styles.sunMoonContainer}>
-          <Animated.View
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              alignItems: 'center',
-              justifyContent: 'center',
-              transform: [
-                {
-                  translateY: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [height, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
+      <SafeAreaView forceInset={{ top: 'never', bottom: 'always' }}>
+        <View style={{ top: TOP_OFFSET_FOR_IPHONE_10 }}>
+          <Animated.ScrollView
+            ref={ref => {
+              this.animatedScrollView = ref;
             }}
+            pagingEnabled
+            showsVerticalScrollIndicator={false}
+            scrollEventThrottle={1}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: this.scrollY } } }],
+              {
+                useNativeDriver: true,
+              }
+            )}
           >
-            <View
-              style={[
-                styles.sunMoon,
-                {
-                  backgroundColor: 'white',
-                  shadowColor: '#FFAD14',
-                  shadowRadius: 24,
-                  shadowOpacity: 0.5,
-                },
-              ]}
-            />
-            <Svg
-              style={{ position: 'absolute' }}
-              height={width / 2}
-              width={width / 2}
-            >
-              <Svg.Defs>
-                <Svg.RadialGradient
-                  id="grad"
-                  cx="50%"
-                  cy="50%"
-                  rx="50%"
-                  ry="50%"
-                  fx="50%"
-                  fy="50%"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <Svg.Stop offset="0%" stopColor="#FCBF00" stopOpacity="1" />
-                  <Svg.Stop offset="100%" stopColor="#F78831" stopOpacity="1" />
-                </Svg.RadialGradient>
-              </Svg.Defs>
-              <Svg.Ellipse
-                cx="103.5"
-                cy="103.5"
-                rx="103.5"
-                ry="103.5"
-                fill="url(#grad)"
-              />
-            </Svg>
-          </Animated.View>
-          <Animated.View
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              alignItems: 'center',
-              justifyContent: 'center',
-              transform: [
-                {
-                  translateY: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [0, -height],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          >
-            <View
-              style={[
-                styles.sunMoon,
-                {
-                  backgroundColor: 'white',
-                  shadowColor: '#6F7179',
-                  shadowRadius: 24,
-                  shadowOpacity: 0.5,
-                },
-              ]}
-            />
-            <Svg
-              style={{ position: 'absolute' }}
-              height={width / 2}
-              width={width / 2}
-            >
-              <Svg.Defs>
-                <Svg.RadialGradient
-                  id="grad"
-                  cx="50%"
-                  cy="50%"
-                  rx="50%"
-                  ry="50%"
-                  fx="50%"
-                  fy="50%"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <Svg.Stop offset="0%" stopColor="#848484" stopOpacity="1" />
-                  <Svg.Stop offset="100%" stopColor="#727274" stopOpacity="1" />
-                </Svg.RadialGradient>
-              </Svg.Defs>
-              <Svg.Ellipse
-                cx="103.5"
-                cy="103.5"
-                rx="103.5"
-                ry="103.5"
-                fill="url(#grad)"
-              />
-            </Svg>
-          </Animated.View>
-
-          <View
-            style={{
-              overflow: 'hidden',
-              height: this.state.minutesHeight,
-              flexDirection: 'row',
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <View
-              style={{
-                width: this.state.minutesWidth,
-                height: this.state.minutesHeight,
-              }}
-            >
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                }}
-              >
-                <Animated.View
-                  style={{
-                    transform: [
-                      {
-                        translateY: this.scrollY.interpolate({
-                          inputRange: [0, height],
-                          outputRange: [-this.state.minutesHeight * 1, 0],
-                        }),
-                      },
-                    ],
-                  }}
-                >
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                </Animated.View>
-              </View>
-            </View>
-
-            <View>
-              <View style={styles.clockTextContainer}>
-                <Text style={styles.clockTextStyle}>:</Text>
-              </View>
-            </View>
-
-            <View
-              style={{
-                width: this.state.minutesWidth,
-                height: this.state.minutesHeight,
-              }}
-            >
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                }}
-              >
-                <Animated.View
-                  style={{
-                    transform: [
-                      {
-                        translateY: this.scrollY.interpolate({
-                          inputRange: [0, height],
-                          outputRange: [-this.state.minutesHeight * 5, 0],
-                        }),
-                      },
-                    ],
-                  }}
-                >
-                  <View style={styles.clockTextContainer}>
-                    <Text
-                      onLayout={this.measureMinutesHeight}
-                      style={styles.clockTextStyle}
-                    >
-                      0
-                    </Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                </Animated.View>
-              </View>
-            </View>
-
-            <View
-              style={{
-                width: this.state.minutesWidth,
-                height: this.state.minutesHeight,
-              }}
-            >
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                }}
-              >
-                <Animated.View
-                  style={{
-                    transform: [
-                      {
-                        translateY: this.scrollY.interpolate({
-                          inputRange: [0, height],
-                          outputRange: [
-                            -this.state.minutesHeight * 59,
-                            -this.state.minutesHeight,
-                          ],
-                        }),
-                      },
-                    ],
-                  }}
-                >
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>0</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>0</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>0</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>0</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>0</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>0</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>1</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>2</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>3</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>4</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>5</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>6</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>7</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>8</Text>
-                  </View>
-                  <View style={styles.clockTextContainer}>
-                    <Text style={styles.clockTextStyle}>9</Text>
-                  </View>
-                </Animated.View>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: height * 0.4,
-            backgroundColor: '#232E37',
-          }}
-        >
-          <View style={{ position: 'absolute', bottom: 24, left: 40 }}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 72,
-                height: 72,
-                borderRadius: 36,
-                backgroundColor: '#505F68',
-              }}
-            >
-              <Image
-                style={{ tintColor: 'white' }}
-                source={require('./clock.png')}
-              />
-            </View>
-          </View>
-
-          <View style={{ position: 'absolute', bottom: 24, right: 40 }}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 72,
-                height: 72,
-                borderRadius: 36,
-                backgroundColor: '#505F68',
-              }}
-            >
-              <Image
-                style={{ tintColor: 'white' }}
-                source={require('./camera.png')}
-              />
-            </View>
-          </View>
-        </View>
-
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <Animated.View
-            style={{
-              top: height * 0.325,
-              left: -width * 0.15,
-              width: 120,
-              height: 10,
-              borderRadius: 5,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 1.5, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
+            <View style={styles.slide} />
+            <View style={styles.slide} />
+          </Animated.ScrollView>
 
           <Animated.View
-            style={{
-              top: height * 0.5,
-              left: width * 0.6,
-              width: 144,
-              height: 16,
-              borderRadius: 8,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 3, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              top: height * 0.1,
-              left: width * 0.8,
-              width: 144,
-              height: 12,
-              borderRadius: 6,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 2.5, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              top: height * 0.04,
-              left: width * 1,
-              width: 144,
-              height: 12,
-              borderRadius: 6,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 3, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              top: height * 0.2,
-              left: width * 1,
-              width: 184,
-              height: 10,
-              borderRadius: 5,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 3, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              top: height * 0.1,
-              left: width * 2,
-              width: 104,
-              height: 10,
-              borderRadius: 5,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 2.9, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              top: height * 0.3,
-              left: width * 2.3,
-              width: 184,
-              height: 18,
-              borderRadius: 9,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 3.2, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-
-          <Animated.View
-            style={{
-              top: height * 0.5,
-              left: width * 3.8,
-              width: 184,
-              height: 18,
-              borderRadius: 9,
-              backgroundColor: 'rgba(255,255,255,0.5)',
-              transform: [
-                {
-                  translateX: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [-width * 3.9, 0],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-            }}
-          />
-        </View>
-
-        <View pointerEvents="none" style={styles.goldenHourContainer}>
-          <Text style={styles.goldenHourText}>Golden Hour</Text>
-          <View style={styles.goldenHourStatusContainer}>
-            <Animated.View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  backgroundColor: '#31CD06',
-                },
-              ]}
-            />
-            <Animated.View
-              style={[
-                StyleSheet.absoluteFill,
-                {
-                  opacity: this.scrollY.interpolate({
-                    inputRange: [0, height],
-                    outputRange: [1, 0],
-                    extrapolate: 'clamp',
-                  }),
-                  backgroundColor: '#EA4052',
-                },
-              ]}
-            />
-            <Animated.View
-              style={{
+            pointerEvents="none"
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                height: height * 10,
                 transform: [
                   {
                     translateY: this.scrollY.interpolate({
                       inputRange: [0, height],
-                      outputRange: [0, -34],
+                      outputRange: [-TOP_OFFSET_FOR_IPHONE_10, -height * 9], // Use 9 to account for initial height which is height * 1
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <LinearGradient
+              style={StyleSheet.absoluteFill}
+              colors={['#1B2125', '#F0544A', '#F88400', '#D1D6DE']}
+            />
+          </Animated.View>
+
+          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+            <Animated.View
+              style={{
+                opacity: this.scrollY.interpolate({
+                  inputRange: [0, height * 0.3, height],
+                  outputRange: [0.75, 0, 0],
+                  extrapolate: 'clamp',
+                }),
+              }}
+            >
+              <Image
+                style={{ top: -TOP_OFFSET_FOR_IPHONE_10 }}
+                source={require('./stars.png')}
+              />
+            </Animated.View>
+          </View>
+
+          <View pointerEvents="none" style={styles.sunMoonContainer}>
+            <Animated.View
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center',
+                transform: [
+                  {
+                    translateY: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [height, 0],
+                      extrapolate: 'clamp',
                     }),
                   },
                 ],
               }}
             >
-              <Text style={styles.goldenHourStatusText}>OVER</Text>
-              <Text style={[styles.goldenHourStatusText, { right: -3 }]}>
-                NOW
-              </Text>
+              <View
+                style={[
+                  styles.sunMoon,
+                  {
+                    backgroundColor: '#F78831',
+                    shadowColor: '#FFAD14',
+                    shadowRadius: 24,
+                    shadowOpacity: 0.75,
+                  },
+                ]}
+              />
+              <Svg
+                style={{ position: 'absolute' }}
+                width={width * 0.5}
+                height={width * 0.5}
+              >
+                <Svg.Defs>
+                  <Svg.RadialGradient
+                    id="sun-a"
+                    cy="51.108%"
+                    r="51.845%"
+                    fx="50%"
+                    fy="51.108%"
+                  >
+                    <Svg.Stop offset="0" stopColor="#F0CB00" />
+                    <Svg.Stop offset="1" stopColor="#FA8D36" />
+                  </Svg.RadialGradient>
+                </Svg.Defs>
+                <Svg.Circle
+                  cx={width * 0.5 / 2}
+                  cy={width * 0.5 / 2}
+                  r={width * 0.5 / 2}
+                  fill="url(#sun-a)"
+                  fillRule="evenodd"
+                />
+              </Svg>
             </Animated.View>
+            <Animated.View
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center',
+                transform: [
+                  {
+                    translateY: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [0, -height],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            >
+              <View
+                style={[
+                  styles.sunMoon,
+                  {
+                    backgroundColor: '#58585D',
+                    shadowColor: '#6F7179',
+                    shadowRadius: 24,
+                    shadowOpacity: 0.5,
+                  },
+                ]}
+              />
+              <Svg
+                style={{ position: 'absolute' }}
+                width={width * 0.5}
+                height={width * 0.5}
+              >
+                <Svg.Defs>
+                  <Svg.RadialGradient
+                    id="sun-a"
+                    cy="51.108%"
+                    r="51.845%"
+                    fx="50%"
+                    fy="51.108%"
+                  >
+                    <Svg.Stop offset="0" stopColor="#A3A3A3" />
+                    <Svg.Stop offset="1" stopColor="#58585D" />
+                  </Svg.RadialGradient>
+                </Svg.Defs>
+                <Svg.Circle
+                  cx={width * 0.5 / 2}
+                  cy={width * 0.5 / 2}
+                  r={width * 0.5 / 2}
+                  fill="url(#sun-a)"
+                  fillRule="evenodd"
+                />
+              </Svg>
+            </Animated.View>
+
+            <View
+              style={{
+                overflow: 'hidden',
+                height: this.state.minutesHeight,
+                flexDirection: 'row',
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <View
+                style={{
+                  width: this.state.minutesWidth,
+                  height: this.state.minutesHeight,
+                }}
+              >
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                  }}
+                >
+                  <Animated.View
+                    style={{
+                      transform: [
+                        {
+                          translateY: this.scrollY.interpolate({
+                            inputRange: [0, height],
+                            outputRange: [-this.state.minutesHeight * 1, 0],
+                          }),
+                        },
+                      ],
+                    }}
+                  >
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                  </Animated.View>
+                </View>
+              </View>
+
+              <View>
+                <View style={styles.clockTextContainer}>
+                  <Text style={styles.clockTextStyle}>:</Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  width: this.state.minutesWidth,
+                  height: this.state.minutesHeight,
+                }}
+              >
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                  }}
+                >
+                  <Animated.View
+                    style={{
+                      transform: [
+                        {
+                          translateY: this.scrollY.interpolate({
+                            inputRange: [0, height],
+                            outputRange: [-this.state.minutesHeight * 5, 0],
+                          }),
+                        },
+                      ],
+                    }}
+                  >
+                    <View style={styles.clockTextContainer}>
+                      <Text
+                        onLayout={this.measureMinutesHeight}
+                        style={styles.clockTextStyle}
+                      >
+                        0
+                      </Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                  </Animated.View>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  width: this.state.minutesWidth,
+                  height: this.state.minutesHeight,
+                }}
+              >
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                  }}
+                >
+                  <Animated.View
+                    style={{
+                      transform: [
+                        {
+                          translateY: this.scrollY.interpolate({
+                            inputRange: [0, height],
+                            outputRange: [
+                              -this.state.minutesHeight * 59,
+                              -this.state.minutesHeight,
+                            ],
+                          }),
+                        },
+                      ],
+                    }}
+                  >
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>0</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>0</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>0</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>0</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>0</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>0</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>1</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>2</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>3</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>4</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>5</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>6</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>7</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>8</Text>
+                    </View>
+                    <View style={styles.clockTextContainer}>
+                      <Text style={styles.clockTextStyle}>9</Text>
+                    </View>
+                  </Animated.View>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View
+            pointerEvents="none"
+            style={{
+              overflow: 'visible',
+              position: 'absolute',
+              bottom: TOP_OFFSET_FOR_IPHONE_10,
+              left: 0,
+              right: 0,
+              height: height * 0.375,
+              backgroundColor: '#232E37',
+            }}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                bottom: -TOP_OFFSET_FOR_IPHONE_10,
+                left: 0,
+                right: 0,
+                height: TOP_OFFSET_FOR_IPHONE_10,
+                backgroundColor: '#232E37',
+              }}
+            />
+            <View style={{ position: 'absolute', bottom: 24, left: 40 }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 72,
+                  height: 72,
+                  borderRadius: 36,
+                  backgroundColor: '#505F68',
+                }}
+              >
+                <Image
+                  style={{ tintColor: 'white' }}
+                  source={require('./clock.png')}
+                />
+              </View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.45,
+                  left: 0,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.3, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="314" height="160">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#394A53" />
+                      <Svg.Stop offset="100%" stopColor="#0C121B" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="157 0 314 160 0 160"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.32,
+                  left: -width * 0.4,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.5, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="314" height="160">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#55606A" />
+                      <Svg.Stop offset="100%" stopColor="#1E272F" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="157 0 314 160 0 160"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.5,
+                  left: height * 0.4,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.5, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="480" height="240">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#384853" />
+                      <Svg.Stop offset="100%" stopColor="#11141C" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="240 0 480 240 0 240"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.5,
+                  left: height * 0.2,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.1, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="480" height="240">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#FAFEFF" />
+                      <Svg.Stop offset="100%" stopColor="#323B42" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="240 0 480 240 0 240"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.3,
+                  left: width * 1.1,
+                  transform: [
+                    { scale: 1.2 },
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 2.8, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="314" height="160">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#55606A" />
+                      <Svg.Stop offset="100%" stopColor="#1E272F" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="157 0 314 160 0 160"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.45,
+                  left: width * 2.6,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 3, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="314" height="160">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#55606A" />
+                      <Svg.Stop offset="100%" stopColor="#11141C" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="157 0 314 160 0 160"
+                  />
+                </Svg>
+              </Animated.View>
+
+              <Animated.View
+                style={{
+                  position: 'absolute',
+                  top: -height * 0.3,
+                  left: width * 2.7,
+                  transform: [
+                    {
+                      translateX: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [-width * 3.1, 0],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Svg width="314" height="160">
+                  <Svg.Defs>
+                    <Svg.LinearGradient
+                      id="triangle-a"
+                      x1="50%"
+                      x2="50%"
+                      y1="21.289%"
+                      y2="100%"
+                    >
+                      <Svg.Stop offset="0%" stopColor="#55606A" />
+                      <Svg.Stop offset="100%" stopColor="#1E272F" />
+                    </Svg.LinearGradient>
+                  </Svg.Defs>
+                  <Svg.Polygon
+                    fill="url(#triangle-a)"
+                    points="157 0 314 160 0 160"
+                  />
+                </Svg>
+              </Animated.View>
+            </View>
+
+            <View style={{ position: 'absolute', bottom: 24, right: 40 }}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 72,
+                  height: 72,
+                  borderRadius: 36,
+                  backgroundColor: '#505F68',
+                }}
+              >
+                <Image
+                  style={{ tintColor: 'white' }}
+                  source={require('./camera.png')}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+            <Animated.View
+              style={{
+                top: height * 0.325,
+                left: -width * 0.15,
+                width: 120,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 1.5, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.5,
+                left: width * 0.6,
+                width: 144,
+                height: 16,
+                borderRadius: 8,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 3, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.1,
+                left: width * 0.8,
+                width: 144,
+                height: 12,
+                borderRadius: 6,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 2.5, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.04,
+                left: width * 1,
+                width: 144,
+                height: 12,
+                borderRadius: 6,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 3, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.2,
+                left: width * 1,
+                width: 184,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 3, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.1,
+                left: width * 2,
+                width: 104,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 2.9, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.3,
+                left: width * 2.3,
+                width: 184,
+                height: 18,
+                borderRadius: 9,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 3.2, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.5,
+                left: width * 3.8,
+                width: 184,
+                height: 18,
+                borderRadius: 9,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 3.1, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+
+            <Animated.View
+              style={{
+                top: height * 0.1,
+                left: width * 4,
+                width: 184,
+                height: 12,
+                borderRadius: 6,
+                backgroundColor: 'rgba(255,255,255,0.3)',
+                transform: [
+                  {
+                    translateX: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [-width * 3.1, 0],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                ],
+              }}
+            />
+          </View>
+
+          <View pointerEvents="none" style={styles.goldenHourContainer}>
+            <Text style={styles.goldenHourText}>Golden Hour</Text>
+            <View style={styles.goldenHourStatusContainer}>
+              <Animated.View
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    backgroundColor: '#31CD06',
+                  },
+                ]}
+              />
+              <Animated.View
+                style={[
+                  StyleSheet.absoluteFill,
+                  {
+                    opacity: this.scrollY.interpolate({
+                      inputRange: [0, height],
+                      outputRange: [1, 0],
+                      extrapolate: 'clamp',
+                    }),
+                    backgroundColor: '#EA4052',
+                  },
+                ]}
+              />
+              <Animated.View
+                style={{
+                  transform: [
+                    {
+                      translateY: this.scrollY.interpolate({
+                        inputRange: [0, height],
+                        outputRange: [0, -34],
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Text style={styles.goldenHourStatusText}>OVER</Text>
+                <Text style={[styles.goldenHourStatusText, { right: -3 }]}>
+                  NOW
+                </Text>
+              </Animated.View>
+            </View>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -799,7 +1098,7 @@ const styles = StyleSheet.create({
   },
   goldenHourContainer: {
     position: 'absolute',
-    top: 40,
+    top: 0,
     left: 0,
     right: 0,
     flexDirection: 'row',
@@ -827,7 +1126,7 @@ const styles = StyleSheet.create({
   },
   sunMoonContainer: {
     position: 'absolute',
-    top: height * 0.3,
+    top: width * 0.38,
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -837,11 +1136,6 @@ const styles = StyleSheet.create({
     width: width / 2,
     height: width / 2,
     borderRadius: width / 2 / 2,
-  },
-  clockTextContainer: {
-    // width: 80,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   clockTextStyle: {
     fontSize: 64,
