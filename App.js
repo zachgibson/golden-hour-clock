@@ -7,12 +7,12 @@ import {
   Dimensions,
   Image,
   StatusBar,
+  SafeAreaView,
 } from 'react-native';
 import { LinearGradient, Svg } from 'expo';
-import SafeAreaView from 'react-native-safe-area-view';
 
 const { width, height } = Dimensions.get('window');
-const TOP_OFFSET_FOR_IPHONE_10 = 40;
+const TOP_OFFSET_FOR_IPHONE_10 = 0;
 
 export default class App extends React.Component {
   state = {
@@ -41,7 +41,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <SafeAreaView forceInset={{ top: 'never', bottom: 'always' }}>
+      <View>
         <View style={{ top: TOP_OFFSET_FOR_IPHONE_10 }}>
           <Animated.ScrollView
             ref={ref => {
@@ -54,7 +54,7 @@ export default class App extends React.Component {
               [{ nativeEvent: { contentOffset: { y: this.scrollY } } }],
               {
                 useNativeDriver: true,
-              }
+              },
             )}
           >
             <View style={styles.slide} />
@@ -284,7 +284,7 @@ export default class App extends React.Component {
                         {
                           translateY: this.scrollY.interpolate({
                             inputRange: [0, height],
-                            outputRange: [-this.state.minutesHeight * 5, 0],
+                            outputRange: [-this.state.minutesHeight * 5+2, 0],
                           }),
                         },
                       ],
@@ -348,7 +348,7 @@ export default class App extends React.Component {
                           translateY: this.scrollY.interpolate({
                             inputRange: [0, height],
                             outputRange: [
-                              -this.state.minutesHeight * 59,
+                              -this.state.minutesHeight * 59 + 19,
                               -this.state.minutesHeight,
                             ],
                           }),
@@ -542,29 +542,28 @@ export default class App extends React.Component {
             </View>
           </View>
 
-          <View
+          <SafeAreaView
             pointerEvents="none"
             style={{
               overflow: 'visible',
               position: 'absolute',
-              bottom: TOP_OFFSET_FOR_IPHONE_10,
+              bottom: 0,
               left: 0,
               right: 0,
-              height: height * 0.375,
-              backgroundColor: '#232E37',
+              height: height,
             }}
           >
             <View
               style={{
                 position: 'absolute',
-                bottom: -TOP_OFFSET_FOR_IPHONE_10,
+                bottom: 0,
                 left: 0,
                 right: 0,
-                height: TOP_OFFSET_FOR_IPHONE_10,
+                height: height * 0.45,
                 backgroundColor: '#232E37',
               }}
             />
-            <View style={{ position: 'absolute', bottom: 24, left: 40 }}>
+            <View style={{ position: 'absolute', bottom: 48, left: 40 }}>
               <View
                 style={{
                   alignItems: 'center',
@@ -1059,7 +1058,7 @@ export default class App extends React.Component {
               </Animated.View>
             </View>
 
-            <View style={{ position: 'absolute', bottom: 24, right: 40 }}>
+            <View style={{ position: 'absolute', bottom: 48, right: 40 }}>
               <View
                 style={{
                   alignItems: 'center',
@@ -1076,7 +1075,7 @@ export default class App extends React.Component {
                 />
               </View>
             </View>
-          </View>
+          </SafeAreaView>
 
           <View pointerEvents="none" style={StyleSheet.absoluteFill}>
             <Animated.View
@@ -1260,7 +1259,7 @@ export default class App extends React.Component {
             />
           </View>
 
-          <View pointerEvents="none" style={styles.goldenHourContainer}>
+          <SafeAreaView pointerEvents="none" style={styles.goldenHourContainer}>
             <Text style={styles.goldenHourText}>Golden Hour</Text>
             <View style={styles.goldenHourStatusContainer}>
               <Animated.View
@@ -1290,7 +1289,7 @@ export default class App extends React.Component {
                     {
                       translateY: this.scrollY.interpolate({
                         inputRange: [0, height],
-                        outputRange: [0, -34],
+                        outputRange: [0, -31],
                       }),
                     },
                   ],
@@ -1302,9 +1301,9 @@ export default class App extends React.Component {
                 </Text>
               </Animated.View>
             </View>
-          </View>
+          </SafeAreaView>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -1350,7 +1349,7 @@ const styles = StyleSheet.create({
   },
   sunMoonContainer: {
     position: 'absolute',
-    top: width * 0.38,
+    top: width * 0.5,
     left: 0,
     right: 0,
     alignItems: 'center',
